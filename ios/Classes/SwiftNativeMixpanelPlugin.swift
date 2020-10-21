@@ -42,12 +42,20 @@ import Mixpanel
       
       if (call.method == "initialize") {
         Mixpanel.initialize(token: call.arguments as! String)
+      } else if(call.method == "distinctId") {
+        result(Mixpanel.mainInstance().distinctId)
       } else if(call.method == "identify") {
         Mixpanel.mainInstance().identify(distinctId: call.arguments as! String, usePeople: false)
       } else if (call.method == "identifyPeople") {
         Mixpanel.mainInstance().identify(distinctId: call.arguments as! String, usePeople: true)
       } else if(call.method == "alias") {
         Mixpanel.mainInstance().createAlias(call.arguments as! String, distinctId: Mixpanel.mainInstance().distinctId)
+      } else if(call.method == "trackCharge") {
+        if let argProperties = try self.getPropertiesFromArguments(callArguments: call.arguments) {
+          Mixpanel.mainInstance().people.trackCharge(amount: argProperties["charge"] as! Double, properties: argProperties["properties"] as? Properties)
+        } else {
+          result(FlutterError(code: "Parse Error", message: "Could not parse arguments for trackCharge platform call. Needs valid JSON data.", details: nil))
+        }
       } else if(call.method == "setPeopleProperties") {
         if let argProperties = try self.getPropertiesFromArguments(callArguments: call.arguments) {
           Mixpanel.mainInstance().people.set(properties: argProperties)

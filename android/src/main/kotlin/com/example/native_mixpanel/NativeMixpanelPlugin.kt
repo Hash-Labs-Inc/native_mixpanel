@@ -39,7 +39,8 @@ class NativeMixpanelPlugin: MethodCallHandler {
     if (call.method == "initialize") {
       mixpanel = MixpanelAPI.getInstance(ctxt, call.arguments.toString())
       result.success("Init success..")
-
+    } else if(call.method == "distinctId") {
+      result.success(mixpanel?.getDistinctId())
     } else if(call.method == "identify") {
       mixpanel?.identify(call.arguments.toString())
       result.success("Identify success..")
@@ -51,7 +52,14 @@ class NativeMixpanelPlugin: MethodCallHandler {
     } else if(call.method == "alias") {
       mixpanel?.alias(call.arguments.toString(), mixpanel?.getDistinctId())
       result.success("Alias success..")
-
+    } else if(call.method == "trackCharge") {
+      if (call.arguments == null) {
+        result.error("Parse Error", "Arguments required for trackCharge platform call", null)
+      } else {
+        val json = JSONObject(call.arguments.toString())
+        mixpanel?.people?.trackCharge(json.getDouble("charge"), JSONObject(json["properties"] as Map<String, Any?>))
+        result.success("Track Charge success..")
+      }
     } else if(call.method == "setPeopleProperties") {
       if (call.arguments == null) {
         result.error("Parse Error", "Arguments required for setPeopleProperties platform call", null)

@@ -60,6 +60,10 @@ class Mixpanel extends _Mixpanel {
     return this._mp.track('initialize', token);
   }
 
+  Future<String> get distinctId {
+    return this._mp.track('distinctId') as Future<String>;
+  }
+
   Future identify(String distinctId) {
     return this._mp.track('identify', distinctId);
   }
@@ -70,6 +74,10 @@ class Mixpanel extends _Mixpanel {
 
   Future alias(String alias) {
     return this._mp.track('alias', alias);
+  }
+
+  Future trackCharge(double charge, Map<String, dynamic> props) {
+    return this._mp.track('trackCharge', jsonEncode(<String, dynamic>{'charge': charge, 'properties': props}));
   }
 
   Future setPeopleProperties(Map<String, dynamic> props) {
