@@ -60,8 +60,8 @@ class Mixpanel extends _Mixpanel {
     return this._mp.track('initialize', token);
   }
 
-  Future<String> get distinctId {
-    return this._mp.track('distinctId') as Future<String>;
+  Future get distinctId {
+    return this._mp.track('distinctId');
   }
 
   Future identify(String distinctId) {
