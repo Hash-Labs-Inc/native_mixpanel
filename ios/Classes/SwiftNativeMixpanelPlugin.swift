@@ -26,6 +26,18 @@ import Mixpanel
     return nil;
   }
 
+    public func getAnyPropertiesFromArguments(callArguments: Any?) throws -> [String:Any]? {
+
+    if let arguments = callArguments, let data = (arguments as! String).data(using: .utf8) {
+
+      let properties = try JSONSerialization.jsonObject(with: data, options: []) as! [String:Any]
+      
+      return properties
+    }
+
+    return nil
+  }
+
   public func getDoublePropertiesFromArguments(callArguments: Any?) throws -> Properties? {
 
     if let arguments = callArguments, let data = (arguments as! String).data(using: .utf8) {
@@ -51,8 +63,10 @@ import Mixpanel
       } else if(call.method == "alias") {
         Mixpanel.mainInstance().createAlias(call.arguments as! String, distinctId: Mixpanel.mainInstance().distinctId)
       } else if(call.method == "trackCharge") {
-        if let argProperties = try self.getPropertiesFromArguments(callArguments: call.arguments) {
-          Mixpanel.mainInstance().people.trackCharge(amount: argProperties["charge"] as! Double, properties: argProperties["properties"] as? Properties)
+        if let argProperties = try self.getAnyPropertiesFromArguments(callArguments: call.arguments) {
+          let charge = argProperties["charge"] as? Double ?? 0.0
+          let props = argProperties["properties"] as? [String:String]
+          Mixpanel.mainInstance().people.trackCharge(amount: charge, properties: props)
         } else {
           result(FlutterError(code: "Parse Error", message: "Could not parse arguments for trackCharge platform call. Needs valid JSON data.", details: nil))
         }

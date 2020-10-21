@@ -57,7 +57,7 @@ class NativeMixpanelPlugin: MethodCallHandler {
         result.error("Parse Error", "Arguments required for trackCharge platform call", null)
       } else {
         val json = JSONObject(call.arguments.toString())
-        mixpanel?.people?.trackCharge(json.getDouble("charge"), JSONObject(json["properties"] as Map<String, Any?>))
+        mixpanel?.people?.trackCharge(json.getDouble("charge"), json["properties"] as JSONObject)
         result.success("Track Charge success..")
       }
     } else if(call.method == "setPeopleProperties") {

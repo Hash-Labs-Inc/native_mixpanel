@@ -155,6 +155,30 @@ class _MyAppState extends State<MyApp> {
                 child: Text('Flush'),
               ),
             ),
+            Container(
+              alignment: Alignment.center,
+              child: RaisedButton(
+                onPressed: () async {
+                  final did = await widget.mixpanel.distinctId;
+                  print(did);
+                },
+                child: Text('DistinctId'),
+              ),
+            ),
+            Container(
+              alignment: Alignment.center,
+              child: RaisedButton(
+                onPressed: () async {
+                  final did = await widget.mixpanel.trackCharge(50.0, <String, String>{
+                    'Currency': 'USD',
+                    'TransactionType': 'SUSD',
+                    '\$time': DateTime.now().toUtc().toIso8601String(),
+                  });
+                  print(did);
+                },
+                child: Text('TrackCharge'),
+              ),
+            ),
           ],
         ),
         floatingActionButton: FloatingActionButton(
