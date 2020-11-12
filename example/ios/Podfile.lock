@@ -8,16 +8,16 @@ PODS:
     - Mixpanel-swift (= 2.8.0)
 
 DEPENDENCIES:
-  - Flutter (from `.symlinks/flutter/ios`)
+  - Flutter (from `Flutter`)
   - native_mixpanel (from `.symlinks/plugins/native_mixpanel/ios`)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  trunk:
     - Mixpanel-swift
 
 EXTERNAL SOURCES:
   Flutter:
-    :path: ".symlinks/flutter/ios"
+    :path: Flutter
   native_mixpanel:
     :path: ".symlinks/plugins/native_mixpanel/ios"
 
@@ -26,6 +26,6 @@ SPEC CHECKSUMS:
   Mixpanel-swift: c16e5d3f7862b4a2f9b6b69b7e19ccacc3b12007
   native_mixpanel: ca1bb02a43ed9cbb445caf3346a96aa4f33bc270
 
-PODFILE CHECKSUM: 95b5ea3438a924d7cf1f0573644999c799219565
+PODFILE CHECKSUM: a75497545d4391e2d394c3668e20cfb1c2bbd4aa
 
 COCOAPODS: 1.9.3
